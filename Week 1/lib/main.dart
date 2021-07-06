@@ -102,7 +102,7 @@ class Calc
                 this.ans = arg1-arg2;
                 break;
             }
-            this.myData = this.ans.toStringAsFixed(2);
+            this.myData = this.ans.toStringAsFixed(3);
             this.arg1IsSelected = [false,false,false,false];
           }
       }
@@ -157,7 +157,7 @@ class _MyAppState extends State<MyApp> {
       height: 60,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Colors.purple, // background
+          primary: Colors.black, // background
           onPrimary: Colors.white, // foreground
         ),
         onPressed: (){
@@ -178,7 +178,9 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'My Calculator',
       home: Scaffold(
+        backgroundColor: Colors.grey[600],
         appBar: AppBar(
+          backgroundColor: Colors.grey[900],
           title: const Text('Calculator'),
         ),
         body: Column(
@@ -189,7 +191,8 @@ class _MyAppState extends State<MyApp> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(calc.myData,style: TextStyle(
-                    fontSize: 40,
+                    color: Colors.white,
+                    fontSize: 35,
                     fontWeight: FontWeight.bold
                   ),
                 )
