@@ -1,5 +1,5 @@
 <h1>Intro To App Dev Week 1 - My Calculator</h1>
-<h2 align="left">~Rohan Rajesh Kalbag</h2>
+<h2 align="right">~Rohan Rajesh Kalbag</h2>
 
 Calculator Flutter project.
 Here is a Video Demonstation of the App
