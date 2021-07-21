@@ -1,16 +1,10 @@
-# climateapp
+<h1>Intro To App Dev Week 3 - Climate App</h1>
+<h2 align="right">~Rohan Rajesh Kalbag</h2>
 
-A new Flutter project.
+Climate App using Weather API and routing and also location package and spinkit loading page of flutter.
 
-## Getting Started
+Here is a Video Demonstation of the App
 
-This project is a starting point for a Flutter application.
+https://user-images.githubusercontent.com/46604893/126445420-ab4c43fd-4b4f-4b82-95a2-3f1fb55cb884.mp4
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
