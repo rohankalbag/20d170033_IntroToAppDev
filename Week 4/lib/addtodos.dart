@@ -119,14 +119,12 @@ class _EnterTodoState extends State<EnterTodo> {
                         children: [
                           ElevatedButton(
                             onPressed: () async {
-                                DatabaseReference dbRef = FirebaseDatabase.instance.reference().child("Users").equalTo(widget.uid);
-                                dbRef.child("Todos List").child("Todo").set({
+                                DatabaseReference dbRef = FirebaseDatabase.instance.reference().child("Users").child(widget.uid);
+                                dbRef.child("Todos List").push().set({
                                   "reminder" : todoController.text,
                                   "date": dateController.text,
                                   "time": timeController.text
                                 }).catchError((e) => print(e)).then((value){
-                                print("Done");
-                                Navigator.pop(context);
                                 Navigator.pop(context);
                                 });
                               },
