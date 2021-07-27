@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mytodo/signup.dart';
+import 'package:mytodo/intro.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mytodo/home.dart';
 import 'package:splashscreen/splashscreen.dart';
@@ -26,11 +26,11 @@ class MyApp extends StatelessWidget {
 }
 
 class IntroScreen extends StatelessWidget {
-  const IntroScreen({Key? key}) : super(key: key);
+  const IntroScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    User? result = FirebaseAuth.instance.currentUser;
+    User result = FirebaseAuth.instance.currentUser;
     return new SplashScreen(
         useLoader: true,
         loadingText: Text(""),

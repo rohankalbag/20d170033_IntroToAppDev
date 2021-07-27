@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:mytodo/signup.dart';
+import 'package:mytodo/intro.dart';
 
 class Home extends StatefulWidget {
-  Home({required this.uid});
+  Home({this.uid});
   final String uid;
 
   @override
@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
 
 class NavigateDrawer extends StatefulWidget {
   final String uid;
-  NavigateDrawer({Key? key, required this.uid}) : super(key: key);
+  NavigateDrawer({Key key, this.uid}) : super(key: key);
   @override
   _NavigateDrawerState createState() => _NavigateDrawerState();
 }
@@ -70,7 +70,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                     .once(),
                 builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                   if (snapshot.hasData) {
-                    return Text(snapshot.data!.value['email']);
+                    return Text(snapshot.data.value['email']);
                   } else {
                     return CircularProgressIndicator();
                   }
@@ -83,7 +83,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                     .once(),
                 builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                   if (snapshot.hasData) {
-                    return Text(snapshot.data!.value['name']);
+                    return Text(snapshot.data.value['name']);
                   } else {
                     return CircularProgressIndicator();
                   }

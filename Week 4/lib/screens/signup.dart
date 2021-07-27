@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:mytodo/home.dart';
 
 class EmailSignUp extends StatefulWidget {
-  const EmailSignUp({Key? key}) : super(key: key);
+  const EmailSignUp({Key key}) : super(key: key);
 
   @override
   _EmailSignUpState createState() => _EmailSignUpState();
@@ -23,13 +23,13 @@ class _EmailSignUpState extends State<EmailSignUp> {
         .createUserWithEmailAndPassword(
         email: emailController.text, password: passwordController.text)
         .then((result) {
-      dbRef.child(result.user!.uid).set({
+      dbRef.child(result.user.uid).set({
         "email": emailController.text,
         "name": nameController.text
       }).then((res) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Home(uid: result.user!.uid)),
+          MaterialPageRoute(builder: (context) => Home(uid: result.user.uid)),
         );
       });
     }).catchError((err) {
@@ -76,14 +76,14 @@ class _EmailSignUpState extends State<EmailSignUp> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(
-                            color: Colors.grey[300]!,
+                            color: Colors.grey[300],
                             width: 2.0,
                           )
                       ),
                     ),
                     // The validator receives the text that the user has entered.
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value.isEmpty) {
                         return 'Enter Username';
                       }
                       return null;
@@ -101,14 +101,14 @@ class _EmailSignUpState extends State<EmailSignUp> {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
-                              color: Colors.grey[300]!,
+                              color: Colors.grey[300],
                               width: 2.0,
                             )
                         ),
                       ),
                       // The validator receives the text that the user has entered.
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value.isEmpty) {
                           return 'Enter Email Address';
                         } else if (!value.contains('@')) {
                           return 'Please enter a valid email address!';
@@ -128,17 +128,17 @@ class _EmailSignUpState extends State<EmailSignUp> {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
-                              color: Colors.grey[300]!,
+                              color: Colors.grey[300],
                               width: 2.0,
                             )
                         ),
                       ),
                       // The validator receives the text that the user has entered.
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value.isEmpty) {
                           return 'Enter Password';
                         } else if (value.length < 6) {
-                          return 'Password must be atleast 6 characters!';
+                          return 'Password must be at least 6 characters!';
                         }
                         return null;
                       },
@@ -150,7 +150,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState.validate()) {
                             registerToFb();
                           }
                         },
