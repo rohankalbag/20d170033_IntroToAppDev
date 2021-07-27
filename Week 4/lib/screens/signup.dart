@@ -18,21 +18,19 @@ class _EmailSignUpState extends State<EmailSignUp> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  void registerToFb() {
-    firebaseAuth
-        .createUserWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text)
-        .then((result) {
-      dbRef.child(result.user.uid).set({
+  void registerToFb() async {
+    UserCredential userData = await firebaseAuth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+    String uid = userData.user.uid;
+    dbRef.child(uid).set({
         "email": emailController.text,
-        "name": nameController.text
+        "name": nameController.text,
+        "todos": null,
       }).then((res) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Home(uid: result.user.uid)),
+          MaterialPageRoute(builder: (context) => Home(uid: uid)),
         );
-      });
-    }).catchError((err) {
+      }).catchError((err) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -49,7 +47,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
               ],
             );
           });
-    });
+          });
   }
 
   @override
