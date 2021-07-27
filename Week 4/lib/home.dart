@@ -18,6 +18,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
           onPressed: (){},
         ) ,
         backgroundColor: Colors.grey[800],
