@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:mytodo/intro.dart';
+import 'addtodos.dart';
 
 class Home extends StatefulWidget {
   Home({this.uid});
@@ -12,14 +13,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   final String title = "Home";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: (){},
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => EnterTodo(uid: widget.uid)));
+          },
         ) ,
         backgroundColor: Colors.grey[800],
         appBar: AppBar(

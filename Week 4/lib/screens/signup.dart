@@ -22,9 +22,9 @@ class _EmailSignUpState extends State<EmailSignUp> {
     UserCredential userData = await firebaseAuth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
     String uid = userData.user.uid;
     dbRef.child(uid).set({
+        "uid": uid,
         "email": emailController.text,
         "name": nameController.text,
-        "todos": null,
       }).then((res) {
         Navigator.pushReplacement(
           context,
