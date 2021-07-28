@@ -91,8 +91,19 @@ class _HomeState extends State<Home> {
     return myTodos;
   }
 
+  Future reflectChanges() async {
+    myTodoHolder = await getTodos();
+    setState(() {});
+  }
+
   final String title = "Home";
+
   @override
+  void initState() {
+    super.initState();
+    reflectChanges();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -131,14 +142,11 @@ class _HomeState extends State<Home> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text("Tip: Click on refresh button after adding/deleting Todos",
+                Text("Tip: Click on refresh button to reflect the changes",
                     style: TextStyle(
                         color: Colors.grey[300], fontStyle: FontStyle.italic)),
                 IconButton(
-                    onPressed: () async {
-                      myTodoHolder = await getTodos();
-                      setState(() {});
-                    },
+                    onPressed: reflectChanges,
                     icon: Icon(
                       Icons.refresh,
                       color: Colors.white,
