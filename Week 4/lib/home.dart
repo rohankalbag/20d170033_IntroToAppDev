@@ -211,7 +211,6 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
             ),
             title: Text('Home'),
             onTap: () {
-              print(widget.uid);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Home(uid: widget.uid)),
