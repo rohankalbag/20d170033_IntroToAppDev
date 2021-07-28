@@ -13,6 +13,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  
+  Future getTodos() async{
+    final response = await FirebaseDatabase.instance.reference().child("Users").child(widget.uid).child("Todos List").once();
+    var Todos = [];
+    response.value.forEach((key,value) => Todos.add(value));
+  }
+
   final String title = "Home";
   @override
   Widget build(BuildContext context) {
@@ -45,7 +52,9 @@ class _HomeState extends State<Home> {
             )
           ],
         ),
-        body: Center(child: Text('Welcome!', style: TextStyle(color: Colors.grey[300]),)),
+        body: Center(child: ElevatedButton(child: Text("click"), onPressed: (){
+          getTodos();
+        },),),
         drawer: NavigateDrawer(uid: this.widget.uid));
   }
 }
