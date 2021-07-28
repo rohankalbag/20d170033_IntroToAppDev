@@ -4,6 +4,50 @@ import 'package:flutter/material.dart';
 import 'package:mytodo/intro.dart';
 import 'addtodos.dart';
 
+class Todos {
+  String id;
+  String reminder;
+  String date;
+  String time;
+  Todos({this.id, this.reminder, this.date, this.time});
+  Widget showTodo() {
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+      decoration: BoxDecoration(
+          color: Colors.black, borderRadius: BorderRadius.circular(10.0)),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                this.reminder,
+                style: TextStyle(color: Colors.grey[300], fontSize: 20),
+              ),
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.grey[300],
+                  ))
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Time: " + this.time,
+                  style: TextStyle(color: Colors.grey[300], fontSize: 15)),
+              Text("Date: " + this.date,
+                  style: TextStyle(color: Colors.grey[300], fontSize: 15))
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
 class Home extends StatefulWidget {
   Home({this.uid});
   final String uid;
@@ -13,11 +57,24 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  
-  Future getTodos() async{
-    final response = await FirebaseDatabase.instance.reference().child("Users").child(widget.uid).child("Todos List").once();
-    var Todos = [];
-    response.value.forEach((key,value) => Todos.add(value));
+  List<Todos> myTodoHolder = [];
+  Future<List<Todos>> getTodos() async {
+    final response = await FirebaseDatabase.instance
+        .reference()
+        .child("Users")
+        .child(widget.uid)
+        .child("Todos List")
+        .once();
+    List<Todos> myTodos = [];
+    response.value.forEach((key, value) {
+      Todos currTodo = Todos(
+          id: key,
+          reminder: value["reminder"],
+          date: value["date"],
+          time: value["time"]);
+      myTodos.add(currTodo);
+    });
+    return myTodos;
   }
 
   final String title = "Home";
@@ -26,10 +83,13 @@ class _HomeState extends State<Home> {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => EnterTodo(uid: widget.uid)));
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EnterTodo(uid: widget.uid)));
           },
-        ) ,
+        ),
         backgroundColor: Colors.grey[800],
         appBar: AppBar(
           backgroundColor: Colors.purple,
@@ -46,15 +106,38 @@ class _HomeState extends State<Home> {
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => SignUp()),
-                          (Route<dynamic> route) => false);
+                      (Route<dynamic> route) => false);
                 });
               },
             )
           ],
         ),
-        body: Center(child: ElevatedButton(child: Text("click"), onPressed: (){
-          getTodos();
-        },),),
+        body: ListView(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () async {
+                      myTodoHolder = await getTodos();
+                      setState(() {});
+                    },
+                    icon: Icon(
+                      Icons.refresh,
+                      color: Colors.white,
+                      size: 25,
+                    ))
+              ],
+            ),
+            ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: myTodoHolder.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return myTodoHolder[index].showTodo();
+                })
+          ],
+        ),
         drawer: NavigateDrawer(uid: this.widget.uid));
   }
 }
