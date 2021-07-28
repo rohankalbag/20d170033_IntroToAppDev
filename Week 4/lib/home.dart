@@ -5,11 +5,12 @@ import 'package:mytodo/intro.dart';
 import 'addtodos.dart';
 
 class Todos {
+  String useruid;
   String id;
   String reminder;
   String date;
   String time;
-  Todos({this.id, this.reminder, this.date, this.time});
+  Todos({this.useruid, this.id, this.reminder, this.date, this.time});
   Widget showTodo() {
     return Container(
       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -26,7 +27,15 @@ class Todos {
                 style: TextStyle(color: Colors.grey[300], fontSize: 20),
               ),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    FirebaseDatabase.instance
+                        .reference()
+                        .child("Users")
+                        .child(this.useruid)
+                        .child("Todos List")
+                        .child(this.id)
+                        .remove();
+                  },
                   icon: Icon(
                     Icons.delete,
                     color: Colors.grey[300],
@@ -66,14 +75,19 @@ class _HomeState extends State<Home> {
         .child("Todos List")
         .once();
     List<Todos> myTodos = [];
-    response.value.forEach((key, value) {
-      Todos currTodo = Todos(
-          id: key,
-          reminder: value["reminder"],
-          date: value["date"],
-          time: value["time"]);
-      myTodos.add(currTodo);
-    });
+    try {
+      response.value.forEach((key, value) {
+        Todos currTodo = Todos(
+            useruid: widget.uid,
+            id: key,
+            reminder: value["reminder"],
+            date: value["date"],
+            time: value["time"]);
+        myTodos.add(currTodo);
+      });
+    } catch (e) {
+      return myTodos;
+    }
     return myTodos;
   }
 
@@ -117,6 +131,9 @@ class _HomeState extends State<Home> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Text("Tip: Click on refresh button after adding/deleting Todos",
+                    style: TextStyle(
+                        color: Colors.grey[300], fontStyle: FontStyle.italic)),
                 IconButton(
                     onPressed: () async {
                       myTodoHolder = await getTodos();
